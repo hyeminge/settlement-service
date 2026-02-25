@@ -1,4 +1,4 @@
-package com.mediflow.settlementservice;
+package com.mediflow.settlement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

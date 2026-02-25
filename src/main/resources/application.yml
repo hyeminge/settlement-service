@@ -8,39 +8,38 @@ spring:
     name: settlement-service
 
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/mediflow_settlement?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:1234}
+    url: jdbc:mysql://localhost:3306/mediflow_settlement?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: "1234"
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    enabled: true
 
   rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:5672}
-    username: ${RABBITMQ_USER:mediflow}
-    password: ${RABBITMQ_PASS:1234}
+    host: localhost
+    port: 5672
+    username: mediflow
+    password: "1234"
     virtual-host: /
 
+# Eureka 비활성화 (인프라 준비 전)
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
-  instance:
-    instance-id: ${spring.application.name}:${server.port}
-    prefer-ip-address: true
+    enabled: false
 
+# RabbitMQ 헬스체크 비활성화 (인프라 준비 전)
 management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
+  health:
+    rabbit:
+      enabled: false
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+    org.flywaydb: info
